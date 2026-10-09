@@ -13,7 +13,6 @@ CREATE TABLE IF NOT EXISTS `g_doorlock` (
     PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-
 CREATE TABLE IF NOT EXISTS `g_doorlock_groups` (
     `name` VARCHAR(32) NOT NULL,
     `label` VARCHAR(64) NOT NULL,

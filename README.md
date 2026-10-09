@@ -1,5 +1,7 @@
 # g_doorlock
 
+![g_doorlock](g_doorlock.png)
+
 Free doorlock for FiveM by Gravity Studios. Single doors, double doors, gates and garages with an in-game editor, server-side permissions and synced state.
 
 ## Features
