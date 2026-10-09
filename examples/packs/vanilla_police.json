@@ -1,0 +1,557 @@
+{
+  "format": "gravity_doorlock",
+  "version": 1,
+  "label": "Vanilla police stations (Mission Row, Sandy Shores, Paleto)",
+  "note": "Vanilla GTA map doors (data from esx-community/esx_doorlock). Coordinates are rounded: if a door does not lock, open it in the editor and use Reselect leaves. MLOs that replace these buildings need their own doors.",
+  "doors": [
+    {
+      "id": "mrpd_entrance",
+      "name": "MRPD - Entrance",
+      "group": "mrpd",
+      "type": "double",
+      "doors": [
+        {
+          "model": "v_ilev_ph_door01",
+          "heading": 270,
+          "coords": {
+            "x": 434.7,
+            "y": -980.6,
+            "z": 30.8
+          }
+        },
+        {
+          "model": "v_ilev_ph_door002",
+          "heading": 270,
+          "coords": {
+            "x": 434.7,
+            "y": -983.2,
+            "z": 30.8
+          }
+        }
+      ],
+      "locked": false,
+      "persist": true,
+      "autoLock": 0,
+      "interactDistance": 2.5,
+      "autoDistance": 0,
+      "access": {
+        "mode": "any",
+        "admin": true,
+        "jobs": [
+          {
+            "name": "police",
+            "grade": 0
+          }
+        ]
+      }
+    },
+    {
+      "id": "mrpd_lockers",
+      "name": "MRPD - Lockers & roof",
+      "group": "mrpd",
+      "type": "single",
+      "doors": [
+        {
+          "model": "v_ilev_ph_gendoor004",
+          "heading": 90,
+          "coords": {
+            "x": 449.6,
+            "y": -986.4,
+            "z": 30.6
+          }
+        }
+      ],
+      "locked": true,
+      "persist": true,
+      "autoLock": 0,
+      "interactDistance": 1.5,
+      "autoDistance": 0,
+      "access": {
+        "mode": "any",
+        "admin": true,
+        "jobs": [
+          {
+            "name": "police",
+            "grade": 0
+          }
+        ]
+      }
+    },
+    {
+      "id": "mrpd_rooftop",
+      "name": "MRPD - Rooftop",
+      "group": "mrpd",
+      "type": "single",
+      "doors": [
+        {
+          "model": "v_ilev_gtdoor02",
+          "heading": 90,
+          "coords": {
+            "x": 464.3,
+            "y": -984.6,
+            "z": 43.8
+          }
+        }
+      ],
+      "locked": true,
+      "persist": true,
+      "autoLock": 0,
+      "interactDistance": 1.5,
+      "autoDistance": 0,
+      "access": {
+        "mode": "any",
+        "admin": true,
+        "jobs": [
+          {
+            "name": "police",
+            "grade": 0
+          }
+        ]
+      }
+    },
+    {
+      "id": "mrpd_roof_hall",
+      "name": "MRPD - Hallway to roof",
+      "group": "mrpd",
+      "type": "single",
+      "doors": [
+        {
+          "model": "v_ilev_arm_secdoor",
+          "heading": 90,
+          "coords": {
+            "x": 461.2,
+            "y": -985.3,
+            "z": 30.8
+          }
+        }
+      ],
+      "locked": true,
+      "persist": true,
+      "autoLock": 0,
+      "interactDistance": 1.5,
+      "autoDistance": 0,
+      "access": {
+        "mode": "any",
+        "admin": true,
+        "jobs": [
+          {
+            "name": "police",
+            "grade": 0
+          }
+        ]
+      }
+    },
+    {
+      "id": "mrpd_armory",
+      "name": "MRPD - Armory",
+      "group": "mrpd",
+      "type": "single",
+      "doors": [
+        {
+          "model": "v_ilev_arm_secdoor",
+          "heading": 270,
+          "coords": {
+            "x": 452.6,
+            "y": -982.7,
+            "z": 30.6
+          }
+        }
+      ],
+      "locked": true,
+      "persist": true,
+      "autoLock": 0,
+      "interactDistance": 1.5,
+      "autoDistance": 0,
+      "access": {
+        "mode": "any",
+        "admin": true,
+        "jobs": [
+          {
+            "name": "police",
+            "grade": 0
+          }
+        ]
+      },
+      "alarm": true
+    },
+    {
+      "id": "mrpd_captain",
+      "name": "MRPD - Captain office",
+      "group": "mrpd",
+      "type": "single",
+      "doors": [
+        {
+          "model": "v_ilev_ph_gendoor002",
+          "heading": 180,
+          "coords": {
+            "x": 447.2,
+            "y": -980.6,
+            "z": 30.6
+          }
+        }
+      ],
+      "locked": true,
+      "persist": true,
+      "autoLock": 0,
+      "interactDistance": 1.5,
+      "autoDistance": 0,
+      "access": {
+        "mode": "any",
+        "admin": true,
+        "jobs": [
+          {
+            "name": "police",
+            "grade": 0
+          }
+        ]
+      }
+    },
+    {
+      "id": "mrpd_downstairs",
+      "name": "MRPD - To downstairs",
+      "group": "mrpd",
+      "type": "double",
+      "doors": [
+        {
+          "model": "v_ilev_ph_gendoor005",
+          "heading": 180,
+          "coords": {
+            "x": 443.9,
+            "y": -989,
+            "z": 30.6
+          }
+        },
+        {
+          "model": "v_ilev_ph_gendoor005",
+          "heading": 0,
+          "coords": {
+            "x": 445.3,
+            "y": -988.7,
+            "z": 30.6
+          }
+        }
+      ],
+      "locked": true,
+      "persist": true,
+      "autoLock": 0,
+      "interactDistance": 2.5,
+      "autoDistance": 0,
+      "access": {
+        "mode": "any",
+        "admin": true,
+        "jobs": [
+          {
+            "name": "police",
+            "grade": 0
+          }
+        ]
+      }
+    },
+    {
+      "id": "mrpd_cells_main",
+      "name": "MRPD - Cells main gate",
+      "group": "mrpd_cells",
+      "type": "single",
+      "doors": [
+        {
+          "model": "v_ilev_ph_cellgate",
+          "heading": 0,
+          "coords": {
+            "x": 463.8,
+            "y": -992.6,
+            "z": 24.9
+          }
+        }
+      ],
+      "locked": true,
+      "persist": true,
+      "autoLock": 0,
+      "interactDistance": 1.5,
+      "autoDistance": 0,
+      "access": {
+        "mode": "any",
+        "admin": true,
+        "jobs": [
+          {
+            "name": "police",
+            "grade": 0
+          }
+        ]
+      }
+    },
+    {
+      "id": "mrpd_cell_1",
+      "name": "MRPD - Cell 1",
+      "group": "mrpd_cells",
+      "type": "single",
+      "doors": [
+        {
+          "model": "v_ilev_ph_cellgate",
+          "heading": 270,
+          "coords": {
+            "x": 462.3,
+            "y": -993.6,
+            "z": 24.9
+          }
+        }
+      ],
+      "locked": true,
+      "persist": true,
+      "autoLock": 0,
+      "interactDistance": 1.5,
+      "autoDistance": 0,
+      "access": {
+        "mode": "any",
+        "admin": true,
+        "jobs": [
+          {
+            "name": "police",
+            "grade": 0
+          }
+        ]
+      }
+    },
+    {
+      "id": "mrpd_cell_2",
+      "name": "MRPD - Cell 2",
+      "group": "mrpd_cells",
+      "type": "single",
+      "doors": [
+        {
+          "model": "v_ilev_ph_cellgate",
+          "heading": 90,
+          "coords": {
+            "x": 462.3,
+            "y": -998.1,
+            "z": 24.9
+          }
+        }
+      ],
+      "locked": true,
+      "persist": true,
+      "autoLock": 0,
+      "interactDistance": 1.5,
+      "autoDistance": 0,
+      "access": {
+        "mode": "any",
+        "admin": true,
+        "jobs": [
+          {
+            "name": "police",
+            "grade": 0
+          }
+        ]
+      }
+    },
+    {
+      "id": "mrpd_cell_3",
+      "name": "MRPD - Cell 3",
+      "group": "mrpd_cells",
+      "type": "single",
+      "doors": [
+        {
+          "model": "v_ilev_ph_cellgate",
+          "heading": 90,
+          "coords": {
+            "x": 462.7,
+            "y": -1001.9,
+            "z": 24.9
+          }
+        }
+      ],
+      "locked": true,
+      "persist": true,
+      "autoLock": 0,
+      "interactDistance": 1.5,
+      "autoDistance": 0,
+      "access": {
+        "mode": "any",
+        "admin": true,
+        "jobs": [
+          {
+            "name": "police",
+            "grade": 0
+          }
+        ]
+      }
+    },
+    {
+      "id": "mrpd_cells_back",
+      "name": "MRPD - Cells to back",
+      "group": "mrpd_cells",
+      "type": "single",
+      "doors": [
+        {
+          "model": "v_ilev_gtdoor",
+          "heading": 0,
+          "coords": {
+            "x": 463.4,
+            "y": -1003.5,
+            "z": 25
+          }
+        }
+      ],
+      "locked": true,
+      "persist": true,
+      "autoLock": 0,
+      "interactDistance": 1.5,
+      "autoDistance": 0,
+      "access": {
+        "mode": "any",
+        "admin": true,
+        "jobs": [
+          {
+            "name": "police",
+            "grade": 0
+          }
+        ]
+      }
+    },
+    {
+      "id": "mrpd_back",
+      "name": "MRPD - Back doors",
+      "group": "mrpd",
+      "type": "double",
+      "doors": [
+        {
+          "model": "v_ilev_rc_door2",
+          "heading": 0,
+          "coords": {
+            "x": 467.3,
+            "y": -1014.4,
+            "z": 26.5
+          }
+        },
+        {
+          "model": "v_ilev_rc_door2",
+          "heading": 180,
+          "coords": {
+            "x": 469.9,
+            "y": -1014.4,
+            "z": 26.5
+          }
+        }
+      ],
+      "locked": true,
+      "persist": true,
+      "autoLock": 0,
+      "interactDistance": 2.5,
+      "autoDistance": 0,
+      "access": {
+        "mode": "any",
+        "admin": true,
+        "jobs": [
+          {
+            "name": "police",
+            "grade": 0
+          }
+        ]
+      }
+    },
+    {
+      "id": "mrpd_back_gate",
+      "name": "MRPD - Back gate",
+      "group": "mrpd",
+      "type": "gate",
+      "doors": [
+        {
+          "model": "hei_prop_station_gate",
+          "heading": 90,
+          "coords": {
+            "x": 488.8,
+            "y": -1017.2,
+            "z": 27.1
+          }
+        }
+      ],
+      "locked": true,
+      "persist": true,
+      "autoLock": 0,
+      "interactDistance": 6,
+      "autoDistance": 12,
+      "access": {
+        "mode": "any",
+        "admin": true,
+        "jobs": [
+          {
+            "name": "police",
+            "grade": 0
+          }
+        ]
+      }
+    },
+    {
+      "id": "sandy_pd_entrance",
+      "name": "Sandy Shores PD - Entrance",
+      "group": "sandy_pd",
+      "type": "single",
+      "doors": [
+        {
+          "model": "v_ilev_shrfdoor",
+          "heading": 30,
+          "coords": {
+            "x": 1855.1,
+            "y": 3683.5,
+            "z": 34.2
+          }
+        }
+      ],
+      "locked": false,
+      "persist": true,
+      "autoLock": 0,
+      "interactDistance": 1.5,
+      "autoDistance": 0,
+      "access": {
+        "mode": "any",
+        "admin": true,
+        "jobs": [
+          {
+            "name": "police",
+            "grade": 0
+          }
+        ]
+      }
+    },
+    {
+      "id": "paleto_pd_entrance",
+      "name": "Paleto Bay PD - Entrance",
+      "group": "paleto_pd",
+      "type": "double",
+      "doors": [
+        {
+          "model": "v_ilev_shrf2door",
+          "heading": 315,
+          "coords": {
+            "x": -443.1,
+            "y": 6015.6,
+            "z": 31.7
+          }
+        },
+        {
+          "model": "v_ilev_shrf2door",
+          "heading": 135,
+          "coords": {
+            "x": -443.9,
+            "y": 6016.6,
+            "z": 31.7
+          }
+        }
+      ],
+      "locked": false,
+      "persist": true,
+      "autoLock": 0,
+      "interactDistance": 2.5,
+      "autoDistance": 0,
+      "access": {
+        "mode": "any",
+        "admin": true,
+        "jobs": [
+          {
+            "name": "police",
+            "grade": 0
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Gravity Doorlock</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- indicator near doors -->
+<div id="indicator" class="indicator hidden">
+    <span class="ind-icon" id="ind-icon"></span>
+    <span class="ind-text">
+        <b id="ind-state"></b>
+        <small id="ind-name"></small>
+    </span>
+    <span class="ind-key hidden" id="ind-key"></span>
+    <span class="ind-action hidden" id="ind-action"><span class="ind-key" id="ind-action-key"></span><small id="ind-action-text"></small></span>
+</div>
+
+<div id="toasts"></div>
+
+<div id="selection" class="selection hidden">
+    <div class="brand-mini"><img class="logo-sm" src="img/logo.png" alt="">GRAVITY DOORLOCK</div>
+    <div id="selection-text"></div>
+    <div id="selection-hint" class="muted small"></div>
+    <div class="muted small" data-i18n="sel_help"></div>
+</div>
+
+<!-- keypad -->
+<div id="keypad" class="overlay hidden">
+    <div class="keypad card">
+        <div class="brand-mini"><img class="logo-sm" src="img/logo.png" alt="">GRAVITY STUDIOS</div>
+        <h2 id="kp-title"></h2>
+        <p id="kp-sub" class="muted"></p>
+        <div id="kp-display" class="kp-display"></div>
+        <div id="kp-error" class="kp-error"></div>
+        <div class="kp-grid">
+            <button data-k="1">1</button><button data-k="2">2</button><button data-k="3">3</button>
+            <button data-k="4">4</button><button data-k="5">5</button><button data-k="6">6</button>
+            <button data-k="7">7</button><button data-k="8">8</button><button data-k="9">9</button>
+            <button data-k="del" class="ghost">&#9003;</button><button data-k="0">0</button><button data-k="ok" class="primary" data-i18n="keypad_ok">OK</button>
+        </div>
+        <button class="link" id="kp-cancel" data-i18n="keypad_cancel"></button>
+    </div>
+</div>
+
+<!-- editor -->
+<div id="editor" class="overlay hidden">
+    <div class="editor card">
+        <header class="ed-head">
+            <div class="brand">
+                <img src="img/logo.png" alt="">
+                <div>
+                    <b class="gradient-text">GRAVITY STUDIOS</b>
+                    <small data-i18n="ed_title"></small>
+                </div>
+            </div>
+            <span class="grow"></span>
+            <button id="ed-help" data-i18n="guide_btn"></button>
+            <button class="icon-btn" id="ed-close" title="ESC">&times;</button>
+        </header>
+
+        <div class="ed-body">
+            <aside class="ed-side">
+                <input type="text" id="ed-search" data-i18n-ph="ed_search">
+                <select id="ed-group"></select>
+                <div class="side-actions">
+                    <button class="primary" id="ed-new" data-i18n="ed_new"></button>
+                    <button id="ed-import" data-i18n="ed_import"></button>
+                    <button id="ed-export" data-i18n="ed_export"></button>
+                </div>
+                <div class="side-actions">
+                    <button id="ed-find" data-i18n="ed_find"></button>
+                    <button id="ed-groups" data-i18n="ed_groups"></button>
+                </div>
+                <div class="bulk-bar hidden" id="ed-bulk-bar">
+                    <span id="ed-bulk-count"></span>
+                    <button class="small primary" id="ed-bulk" data-i18n="ed_bulk"></button>
+                    <button class="small" id="ed-bulk-clear">&times;</button>
+                </div>
+                <div id="ed-list" class="ed-list"></div>
+                <div id="ed-count" class="muted small"></div>
+            </aside>
+
+            <section class="ed-main" id="ed-main">
+                <div id="ed-empty" class="empty">
+                    <div class="guide-box">
+                        <p class="muted" data-i18n="ed_pick"></p>
+                        <div id="guide-inline"></div>
+                    </div>
+                </div>
+
+                <form id="ed-form" class="hidden" autocomplete="off">
+                    <div class="form-top">
+                        <div class="form-head">
+                            <div class="form-title">
+                                <h2 id="f-title"></h2>
+                                <small id="f-sub"></small>
+                            </div>
+                            <span id="f-badge" class="badge"></span>
+                            <span id="f-temp" class="badge hidden" data-i18n="ed_temp"></span>
+                            <span id="f-broken" class="badge bad hidden" data-i18n="ed_broken"></span>
+                        </div>
+                        <nav class="tabs">
+                            <button type="button" class="tab" data-tab="general"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 21V5a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v16"/><path d="M2 21h20"/><circle cx="15" cy="12" r="1"/></svg><span data-i18n="tab_general"></span><i class="dot"></i></button>
+                            <button type="button" class="tab" data-tab="behaviour"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg><span data-i18n="tab_behaviour"></span><i class="dot"></i></button>
+                            <button type="button" class="tab" data-tab="access"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg><span data-i18n="tab_access"></span><i class="dot"></i></button>
+                            <button type="button" class="tab" data-tab="breakin"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 4l6 6-9 9H5v-6z"/><path d="M12 6l6 6"/></svg><span data-i18n="tab_breakin"></span><i class="dot"></i></button>
+                        </nav>
+                    </div>
+
+                    <fieldset data-tab="general">
+                        <legend data-i18n="ed_general"></legend>
+                        <p class="hint" data-i18n="hint_general"></p>
+                        <div class="grid3">
+                            <label><span data-i18n="ed_id"></span><input type="text" id="f-id" maxlength="64"></label>
+                            <label><span data-i18n="ed_name"></span><input type="text" id="f-name" maxlength="64"></label>
+                            <label><span data-i18n="ed_group"></span><select id="f-group"></select></label>
+                            <label><span data-i18n="ed_type"></span>
+                                <select id="f-type">
+                                    <option value="single" data-i18n="ed_type_single"></option>
+                                    <option value="double" data-i18n="ed_type_double"></option>
+                                    <option value="gate" data-i18n="ed_type_gate"></option>
+                                    <option value="garage" data-i18n="ed_type_garage"></option>
+                                </select>
+                            </label>
+                            <label><span data-i18n="ed_bucket"></span><input type="number" id="f-bucket" min="0" step="1"></label>
+                        </div>
+                    </fieldset>
+
+                    <fieldset data-tab="general">
+                        <legend data-i18n="ed_leaves"></legend>
+                        <p class="hint" data-i18n="hint_leaves"></p>
+                        <div id="f-leaves" class="leaves"></div>
+                        <div class="row">
+                            <button type="button" id="f-pick" data-i18n="ed_reselect"></button>
+                            <button type="button" id="f-preview" data-i18n="ed_preview"></button>
+                        </div>
+                    </fieldset>
+
+                    <fieldset data-tab="behaviour">
+                        <legend data-i18n="ed_behaviour"></legend>
+                        <p class="hint" data-i18n="hint_behaviour"></p>
+                        <div class="grid3">
+                            <label><span data-i18n="ed_interact"></span><input type="number" id="f-interact" min="0.5" step="0.1"></label>
+                            <label><span data-i18n="ed_autodist"></span><input type="number" id="f-auto" min="0" step="0.5"></label>
+                            <label><span data-i18n="ed_autolock"></span><input type="number" id="f-autolock" min="0" max="3600" step="1"></label>
+                        </div>
+                        <div class="toggles">
+                            <label class="tg sw"><input type="checkbox" id="f-locked"><span data-i18n="ed_locked"></span></label>
+                            <label class="tg sw"><input type="checkbox" id="f-persist"><span data-i18n="ed_persist"></span></label>
+                            <label class="tg sw"><input type="checkbox" id="f-hide"><span data-i18n="ed_hide_ind"></span></label>
+                            <label class="tg sw"><input type="checkbox" id="f-remote"><span data-i18n="ed_remote"></span></label>
+                        </div>
+                    </fieldset>
+
+                    <fieldset data-tab="behaviour">
+                        <legend data-i18n="ed_sounds"></legend>
+                        <p class="hint" data-i18n="hint_sounds"></p>
+                        <div class="grid3">
+                            <label><span data-i18n="ed_sound_unlock"></span>
+                                <span class="row tight"><select id="f-sound-unlock" class="sound-select"></select><button type="button" class="small" data-test="unlock">&#9654;</button></span>
+                            </label>
+                            <label><span data-i18n="ed_sound_lock"></span>
+                                <span class="row tight"><select id="f-sound-lock" class="sound-select"></select><button type="button" class="small" data-test="lock">&#9654;</button></span>
+                            </label>
+                        </div>
+                    </fieldset>
+
+                    <fieldset data-tab="breakin">
+                        <legend data-i18n="ed_breakin"></legend>
+                        <p class="hint" data-i18n="hint_breakin"></p>
+                        <div class="opt-cards">
+                            <div class="opt-card">
+                                <label class="tg sw"><input type="checkbox" id="f-lockpick"><span data-i18n="ed_lockpick"></span></label>
+                                <p class="hint" data-i18n="opt_lockpick"></p>
+                                <label><span data-i18n="ed_difficulty"></span>
+                                    <select id="f-lockpick-diff">
+                                        <option value="easy" data-i18n="ed_diff_easy"></option>
+                                        <option value="medium" data-i18n="ed_diff_medium"></option>
+                                        <option value="hard" data-i18n="ed_diff_hard"></option>
+                                    </select>
+                                </label>
+                            </div>
+                            <div class="opt-card">
+                                <label class="tg sw"><input type="checkbox" id="f-breach"><span data-i18n="ed_breach"></span></label>
+                                <p class="hint" data-i18n="opt_breach"></p>
+                            </div>
+                            <div class="opt-card">
+                                <label class="tg sw"><input type="checkbox" id="f-hack"><span data-i18n="ed_hack"></span></label>
+                                <p class="hint" data-i18n="opt_hack"></p>
+                            </div>
+                            <div class="opt-card">
+                                <label class="tg sw"><input type="checkbox" id="f-alarm"><span data-i18n="ed_alarm"></span></label>
+                                <p class="hint" data-i18n="opt_alarm"></p>
+                            </div>
+                        </div>
+                    </fieldset>
+
+                    <fieldset data-tab="behaviour">
+                        <legend data-i18n="ed_schedule"></legend>
+                        <p class="hint" data-i18n="hint_schedule"></p>
+                        <div class="row">
+                            <label class="tg sw"><input type="checkbox" id="f-sched"><span data-i18n="ed_sched_enable"></span></label>
+                            <label class="inline"><span data-i18n="ed_sched_open"></span><input type="time" id="f-sched-open" class="time"></label>
+                            <label class="inline"><span data-i18n="ed_sched_close"></span><input type="time" id="f-sched-close" class="time"></label>
+                        </div>
+                        <div class="row days" id="f-sched-days"></div>
+                        <p class="muted small" data-i18n="ed_sched_note"></p>
+                    </fieldset>
+
+                    <fieldset data-tab="access">
+                        <legend data-i18n="ed_access"></legend>
+                        <p class="hint" data-i18n="hint_access"></p>
+                        <div class="row">
+                            <label class="inline"><span data-i18n="ed_mode"></span>
+                                <select id="f-mode">
+                                    <option value="any" data-i18n="ed_mode_any"></option>
+                                    <option value="all" data-i18n="ed_mode_all"></option>
+                                </select>
+                            </label>
+                            <label class="tg sw"><input type="checkbox" id="f-public"><span data-i18n="ed_public"></span></label>
+                            <label class="tg sw"><input type="checkbox" id="f-admin"><span data-i18n="ed_admin"></span></label>
+                            <label class="tg sw"><input type="checkbox" id="f-bell"><span data-i18n="ed_bell"></span></label>
+                        </div>
+
+                        <div class="row tight tpl-row">
+                            <span class="muted small" data-i18n="ed_tpl"></span>
+                            <select id="f-tpl"></select>
+                            <button type="button" class="small" id="f-tpl-apply" data-i18n="ed_tpl_apply"></button>
+                            <button type="button" class="small" id="f-tpl-save" data-i18n="ed_tpl_save"></button>
+                            <button type="button" class="small danger-ghost" id="f-tpl-del">&times;</button>
+                        </div>
+
+                        <div class="sub">
+                            <div class="sub-head"><b data-i18n="ed_jobs"></b><button type="button" class="small" data-add="jobs">+</button></div>
+                            <div id="l-jobs" class="rows"></div>
+                        </div>
+                        <div class="sub" id="gangs-box">
+                            <div class="sub-head"><b data-i18n="ed_gangs"></b><button type="button" class="small" data-add="gangs">+</button></div>
+                            <div id="gangs-note" class="muted small hidden" data-i18n="ed_gangs_na"></div>
+                            <div id="l-gangs" class="rows"></div>
+                        </div>
+                        <div class="sub">
+                            <div class="sub-head"><b data-i18n="ed_identifiers"></b>
+                                <span class="row tight">
+                                    <input type="number" id="f-ident-target" class="tiny" data-i18n-ph="ed_sid_prompt">
+                                    <button type="button" class="small" id="f-ident-fetch" data-i18n="ed_add_id"></button>
+                                    <button type="button" class="small" id="f-ident-me" data-i18n="ed_add_me"></button>
+                                    <button type="button" class="small" data-add="identifiers">+</button>
+                                </span>
+                            </div>
+                            <div id="l-identifiers" class="rows"></div>
+                        </div>
+                        <div class="sub">
+                            <div class="sub-head"><b data-i18n="ed_items"></b><button type="button" class="small" data-add="items">+</button></div>
+                            <div id="items-note" class="muted small hidden" data-i18n="ed_meta_na"></div>
+                            <div id="l-items" class="rows"></div>
+                        </div>
+                    </fieldset>
+
+                    <fieldset data-tab="access">
+                        <legend data-i18n="ed_pin"></legend>
+                        <p class="hint" data-i18n="hint_pin"></p>
+                        <div class="row">
+                            <span id="f-pin-status" class="badge"></span>
+                            <input type="password" id="f-pin" inputmode="numeric" maxlength="8" data-i18n-ph="ed_pin_new">
+                            <button type="button" id="f-pin-clear" class="danger-ghost" data-i18n="ed_pin_remove"></button>
+                        </div>
+                    </fieldset>
+
+                    <div class="form-actions">
+                        <button type="submit" class="primary" id="f-save" data-i18n="ed_save"></button>
+                        <button type="button" id="f-duplicate" data-i18n="ed_duplicate"></button>
+                        <button type="button" id="f-goto" data-i18n="ed_goto"></button>
+                        <button type="button" id="f-state"></button>
+                        <span class="grow"></span>
+                        <button type="button" class="danger" id="f-delete" data-i18n="ed_delete"></button>
+                    </div>
+                </form>
+            </section>
+        </div>
+    </div>
+</div>
+
+<!-- generic modal -->
+<div id="modal" class="overlay top hidden">
+    <div class="card modal">
+        <h3 id="m-title"></h3>
+        <div id="m-body"></div>
+        <div class="form-actions" id="m-actions"></div>
+    </div>
+</div>
+
+<script src="app.js"></script>
+<datalist id="item-list"></datalist>
+</body>
+</html>

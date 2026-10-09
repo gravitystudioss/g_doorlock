@@ -1,0 +1,5 @@
+Manrope - Copyright 2018 The Manrope Project Authors (https://github.com/sharanda/manrope)
+DM Mono - Copyright 2020 The DM Mono Project Authors (https://github.com/googlefonts/dm-mono)
+
+Both fonts are licensed under the SIL Open Font License, Version 1.1.
+Full text: https://openfontlicense.org/open-font-license-official-text/

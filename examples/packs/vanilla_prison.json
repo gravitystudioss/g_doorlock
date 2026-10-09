@@ -1,0 +1,72 @@
+{
+  "format": "gravity_doorlock",
+  "version": 1,
+  "label": "Vanilla Bolingbroke prison gates",
+  "note": "Vanilla GTA map doors (data from esx-community/esx_doorlock). Coordinates are rounded: if a door does not lock, open it in the editor and use Reselect leaves. MLOs that replace these buildings need their own doors.",
+  "doors": [
+    {
+      "id": "prison_gate_1",
+      "name": "Bolingbroke - Gate 1",
+      "group": "prison",
+      "type": "gate",
+      "doors": [
+        {
+          "model": "prop_gate_prison_01",
+          "heading": 0,
+          "coords": {
+            "x": 1844.9,
+            "y": 2604.8,
+            "z": 44.6
+          }
+        }
+      ],
+      "locked": true,
+      "persist": true,
+      "autoLock": 0,
+      "interactDistance": 6,
+      "autoDistance": 12,
+      "access": {
+        "mode": "any",
+        "admin": true,
+        "jobs": [
+          {
+            "name": "police",
+            "grade": 0
+          }
+        ]
+      }
+    },
+    {
+      "id": "prison_gate_2",
+      "name": "Bolingbroke - Gate 2",
+      "group": "prison",
+      "type": "gate",
+      "doors": [
+        {
+          "model": "prop_gate_prison_01",
+          "heading": 0,
+          "coords": {
+            "x": 1818.5,
+            "y": 2604.8,
+            "z": 44.6
+          }
+        }
+      ],
+      "locked": true,
+      "persist": true,
+      "autoLock": 0,
+      "interactDistance": 6,
+      "autoDistance": 12,
+      "access": {
+        "mode": "any",
+        "admin": true,
+        "jobs": [
+          {
+            "name": "police",
+            "grade": 0
+          }
+        ]
+      }
+    }
+  ]
+}

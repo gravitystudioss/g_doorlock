@@ -1,0 +1,86 @@
+{
+    "format": "gravity_doorlock",
+    "version": 1,
+    "doors": [
+        {
+            "_note": "Police station - vanilla Mission Row entrance (double door). With custom maps reselect the leaves in the editor.",
+            "id": "mrpd_front",
+            "name": "MRPD - Entrance",
+            "group": "mrpd",
+            "type": "double",
+            "doors": [
+                { "model": "v_ilev_ph_door01", "coords": { "x": 434.7, "y": -980.6, "z": 30.8 }, "heading": 270.0 },
+                { "model": "v_ilev_ph_door002", "coords": { "x": 434.7, "y": -983.2, "z": 30.8 }, "heading": 270.0 }
+            ],
+            "locked": false,
+            "persist": true,
+            "autoLock": 0,
+            "interactDistance": 2.5,
+            "autoDistance": 0,
+            "access": {
+                "mode": "any",
+                "admin": true,
+                "jobs": [ { "name": "police", "grade": 0 } ]
+            }
+        },
+        {
+            "_note": "Keycard access - vanilla Mission Row armory. Needs a 'keycard' item with metadata doorkey = mrpd_armory, or police job grade 3+.",
+            "id": "mrpd_armory",
+            "name": "MRPD - Armory",
+            "group": "mrpd",
+            "type": "single",
+            "doors": [
+                { "model": "v_ilev_arm_secdoor", "coords": { "x": 452.6, "y": -982.7, "z": 30.6 }, "heading": 90.0 }
+            ],
+            "locked": true,
+            "persist": false,
+            "autoLock": 10,
+            "interactDistance": 2.0,
+            "access": {
+                "mode": "any",
+                "admin": true,
+                "jobs": [ { "name": "police", "grade": 3 } ],
+                "items": [ { "name": "keycard", "metadata": "mrpd_armory" } ]
+            }
+        },
+        {
+            "_note": "Company - EXAMPLE coordinates: after importing, open the door in the editor and use 'Reselect leaves' on the real door.",
+            "id": "company_office",
+            "name": "Company - Office",
+            "group": "company",
+            "type": "single",
+            "doors": [
+                { "model": "v_ilev_gendoor02", "coords": { "x": -1000.0, "y": -1000.0, "z": 20.0 }, "heading": 0.0 }
+            ],
+            "locked": true,
+            "persist": true,
+            "autoLock": 0,
+            "interactDistance": 2.0,
+            "access": {
+                "mode": "any",
+                "jobs": [ { "name": "mechanic", "grade": 2 } ],
+                "identifiers": [ "char1:replace_with_identifier" ]
+            }
+        },
+        {
+            "_note": "PIN access - EXAMPLE coordinates. pin_code is read only on import, stored as a hash and never exported.",
+            "id": "storage_pin",
+            "name": "Storage - PIN",
+            "group": "company",
+            "type": "single",
+            "doors": [
+                { "model": "v_ilev_gendoor02", "coords": { "x": -1010.0, "y": -1000.0, "z": 20.0 }, "heading": 0.0 }
+            ],
+            "locked": true,
+            "persist": true,
+            "autoLock": 15,
+            "interactDistance": 1.5,
+            "pin_code": "4826",
+            "access": {
+                "mode": "any",
+                "pin": true,
+                "admin": true
+            }
+        }
+    ]
+}

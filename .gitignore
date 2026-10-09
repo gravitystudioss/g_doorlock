@@ -1,0 +1,6 @@
+doors_export_*.json
+.vscode/
+.idea/
+*.log
+Thumbs.db
+.DS_Store
