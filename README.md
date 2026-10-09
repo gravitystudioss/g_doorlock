@@ -50,41 +50,60 @@ set g_doorlock_webhook "https://discord.com/api/webhooks/..."   # optional
 
 4. Add the items you use to your inventory (see below).
 
-## Configuration
-
-Use `config.lua` for shared settings and `config_server.lua` for admin groups, Discord logs and the update check.
-
-```lua
-Config.Notify = { system = 'ox_lib' }     -- ox_lib | esx | qb | qbx | okokNotify | mythic_notify | brutal_notify | wasabi_notify | custom
-Config.TextUI = { system = 'g_doorlock' } -- g_doorlock | ox_lib | esx | qb | okokTextUI | cd_drawtextui | jg-textui | custom | false
-```
-
-Minigames run on the client and return `true` on success. To use a different minigame, replace the callback:
-
-```lua
-Config.Lockpick.minigame = function(checks, difficulty)
-    return lib.skillCheck(checks)
-end
-```
-
 ## Items
 
-| Item | Used for |
-|---|---|
-| `lockpick` | Lockpicking |
-| `hacking_device` | Hacking |
-| `garage_remote` | Garage remote control |
+Add the missing entries to your inventory's item table. `keycard` is optional and can be configured as a door key in the editor.
 
-Any inventory item can be configured as a key in the editor. For ox_inventory, add the client export to the garage remote item:
+### ox_inventory
+
+Add to `ox_inventory/data/items.lua` ([item format](https://overextended.dev/docs/ox_inventory/Guides/creatingItems)).
 
 ```lua
-['garage_remote'] = { label = 'Garage Remote', weight = 50, client = { export = 'g_doorlock.useRemote' } },
+['lockpick'] = {
+    label = 'Lockpick', weight = 100, stack = true, close = true,
+    description = 'A tool for picking door locks.',
+},
+['hacking_device'] = {
+    label = 'Hacking Device', weight = 1000, stack = false, close = true,
+    description = 'A device for bypassing electronic door locks.',
+},
+['garage_remote'] = {
+    label = 'Garage Remote', weight = 50, stack = false, close = true, consume = 0,
+    description = 'A remote control for gates and garage doors.',
+    client = { export = 'g_doorlock.useRemote' },
+},
+['keycard'] = {
+    label = 'Keycard', weight = 10, stack = false, close = true,
+    description = 'An access card for a door or group of doors.',
+},
 ```
 
-To restrict a key to a door or group, set its `doorkey` metadata:
+### qs-inventory
+
+Add to `qs-inventory/shared/items.lua` for ESX or `qb-core/shared/items.lua` for QBCore ([item locations](https://www.quasar-store.com/docs/advanced-inventory/installation#item-management)). Use matching item images in `qs-inventory/html/images/`.
 
 ```lua
-exports.ox_inventory:AddItem(source, 'keycard', 1, { doorkey = 'mrpd_armory' })
+['lockpick'] = {
+    name = 'lockpick', label = 'Lockpick', weight = 100, type = 'item', image = 'lockpick.png',
+    unique = false, useable = false, shouldClose = true,
+    description = 'A tool for picking door locks.',
+},
+['hacking_device'] = {
+    name = 'hacking_device', label = 'Hacking Device', weight = 1000, type = 'item', image = 'hacking_device.png',
+    unique = true, useable = false, shouldClose = true,
+    description = 'A device for bypassing electronic door locks.',
+},
+['garage_remote'] = {
+    name = 'garage_remote', label = 'Garage Remote', weight = 50, type = 'item', image = 'garage_remote.png',
+    unique = true, useable = true, shouldClose = true,
+    description = 'A remote control for gates and garage doors.',
+    client = { export = 'g_doorlock.useRemote' },
+},
+['keycard'] = {
+    name = 'keycard', label = 'Keycard', weight = 10, type = 'item', image = 'keycard.png',
+    unique = true, useable = false, shouldClose = true,
+    description = 'An access card for a door or group of doors.',
+},
 ```
 
 ## Exports
@@ -102,12 +121,6 @@ dl:addTempPin('motel_12', '4821', 86400)
 ```
 
 Server event: `g_doorlock:stateChanged (id, locked, src, reason)`. More hooks in `hooks.lua`.
-
-## Notes
-
-- Use only one doorlock resource per physical door to avoid conflicting states.
-- MLO doors must support GTA door physics.
-- If an imported door doesn't lock, open it in the editor and use **Reselect leaves**.
 
 ## License
 
