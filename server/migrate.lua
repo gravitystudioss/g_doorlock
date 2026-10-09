@@ -37,7 +37,7 @@ local function listFrom(t)
     return out
 end
 
--- ox_doorlock -------------------------------------------------------------
+-- ox_doorlock
 
 function Migrate.oxDoor(rowId, rowName, d)
     local leaves = {}
@@ -100,7 +100,7 @@ function Migrate.loadOx()
     return list
 end
 
--- qb-doorlock -------------------------------------------------------------
+-- qb-doorlock
 
 local qbTypes = { door = 'single', double = 'double', sliding = 'gate', doublesliding = 'gate', garage = 'garage' }
 
@@ -185,7 +185,7 @@ function Migrate.loadQb()
     return list
 end
 
--- run ---------------------------------------------------------------------
+-- run
 
 function Migrate.run(from, overwrite, src)
     local list, err

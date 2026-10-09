@@ -43,8 +43,8 @@ function Utils.leafHash(doorId, index)
     return joaat('g_doorlock:' .. doorId .. ':' .. index)
 end
 
--- does this item metadata open a door that wants `value`? (nil value = any item)
--- cards with an expiry date in the past never match
+-- Match key metadata; a nil value accepts any key.
+-- Expired keys are rejected.
 function Utils.keyMatches(meta, value)
     if type(meta) == 'table' then
         local expires = tonumber(meta[Config.Access.keys.expiresField])

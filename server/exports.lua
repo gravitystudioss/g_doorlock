@@ -1,5 +1,5 @@
--- server exports. the ones that change things are for trusted server resources only,
--- there is no client export that changes a door.
+-- Door state mutations are available to trusted server resources.
+-- Client requests go through server permission checks.
 
 local function exists(id)
     return type(id) == 'string' and Doors.list[id] ~= nil
@@ -93,7 +93,7 @@ exports('clearTempAccess', function(id)
 end)
 
 -- create or update a door from another resource.
--- persist = false keeps it only until restart (good for housing that spawns doors at runtime)
+-- persist = false creates a runtime door without saving it to the database.
 exports('createDoor', function(data, persist, pin)
     if type(data) ~= 'table' then return false, 'err_invalid_data' end
     local isNew = not (data.id and Doors.list[tostring(data.id):lower()])

@@ -367,7 +367,7 @@ function showTab(name) {
 
 document.querySelectorAll('.tab').forEach((b) => b.addEventListener('click', () => showTab(b.dataset.tab)));
 
-// small dot on the tabs that have something turned on
+// Mark tabs with configured options.
 function updateTabDots() {
     $('f-lockpick-diff').disabled = !$('f-lockpick').checked;
     document.querySelectorAll('.opt-card').forEach((c) => c.classList.toggle('on', c.querySelector('input[type=checkbox]').checked));
@@ -909,7 +909,7 @@ $('f-tpl-del').addEventListener('click', async (e) => {
 
 // bulk edit
 function renderBulkBar() {
-    // forget doors that don't exist anymore
+    // Remove deleted doors from the selection.
     [...ed.picked].forEach((id) => { if (!ed.doors.some((d) => d.id === id)) ed.picked.delete(id); });
     $('ed-bulk-bar').classList.toggle('hidden', ed.picked.size === 0);
     $('ed-bulk-count').textContent = t('ed_bulk_count', ed.picked.size);

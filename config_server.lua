@@ -1,6 +1,6 @@
 ServerConfig = {}
 
--- Also allow framework admin groups to open /dooradmin (in addition to the ACE permission).
+-- Allow framework admin groups to use the editor alongside ACE permissions.
 ServerConfig.UseFrameworkAdmin = true
 
 -- Framework groups considered administrators (editor access + "admin" door criterion).
@@ -24,8 +24,8 @@ ServerConfig.Logs = {
     },
 }
 
--- Tells you in the console when a newer version is out.
--- Calls the GitHub API once at start, set enabled = false to turn it off.
+-- Check GitHub for updates once on startup.
+-- Report new versions in the console.
 ServerConfig.UpdateCheck = {
     enabled = true,
     repo = 'gravitystudioss/g_doorlock',

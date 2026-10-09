@@ -388,7 +388,7 @@ lib.callback.register('g_doorlock:admin:quickToggle', function(src, id)
     return locked
 end)
 
--- restore a deleted door ---------------------------------------------------
+-- restore a deleted door
 
 lib.callback.register('g_doorlock:admin:restore', function(src, id)
     if not canAdmin(src) then return { ok = false, err = 'no_permission' } end
@@ -410,7 +410,7 @@ lib.callback.register('g_doorlock:admin:restore', function(src, id)
     return { ok = true, doors = adminList(), groups = Doors.groupList() }
 end)
 
--- edit many doors at once ----------------------------------------------------
+-- edit many doors at once
 
 local function applyBulk(door, patch)
     if patch.group ~= nil then door.group = patch.group ~= '' and patch.group or nil end
@@ -481,7 +481,7 @@ lib.callback.register('g_doorlock:admin:bulk', function(src, ids, patch)
     return { ok = true, done = done, errors = errors, doors = adminList(), groups = Doors.groupList() }
 end)
 
--- permission templates -------------------------------------------------------
+-- permission templates
 
 lib.callback.register('g_doorlock:admin:templateSave', function(src, name, access)
     if not canAdmin(src) then return { ok = false, err = 'no_permission' } end
@@ -496,7 +496,7 @@ lib.callback.register('g_doorlock:admin:templateDelete', function(src, name)
     return { ok = true, templates = Templates.list() }
 end)
 
--- door packs -------------------------------------------------------------------
+-- door packs
 
 lib.callback.register('g_doorlock:admin:importPack', function(src, file, overwrite)
     if not canAdmin(src) then return { ok = false, err = 'no_permission' } end

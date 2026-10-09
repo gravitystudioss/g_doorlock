@@ -126,7 +126,7 @@ local lastUse = 0
 
 function Interact.use(door, pin)
     if Interact.busy or not door then return end
-    -- spamming the key makes the door fight its own physics
+    -- Debounce input while door physics settle.
     if not pin and GetGameTimer() - lastUse < 800 then return end
     lastUse = GetGameTimer()
     Interact.busy = true
@@ -300,7 +300,7 @@ function Interact.onDoorChanged(id)
     Interact.nearby[id] = nil
     if Interact.current and Interact.current.id == id then
         Interact.current = ClientDoors.list[id]
-        -- false never matches a real key, so the pill is always redrawn (or hidden if the door is gone)
+        -- Invalidate the indicator after an edit or removal.
         lastShown = false
         updateIndicator()
     end
@@ -348,7 +348,7 @@ local function tryAutoGate(door, dist, ped)
     end)
 end
 
--- slow loop: which doors are around (grid lookup, every 1s)
+-- Refresh nearby doors once per second.
 CreateThread(function()
     while true do
         if ClientDoors.loaded then
@@ -376,7 +376,7 @@ CreateThread(function()
     end
 end)
 
--- fast loop only when there is something near
+-- Update interactions while doors are nearby.
 CreateThread(function()
     while true do
         local sleep = 1000
@@ -398,7 +398,7 @@ CreateThread(function()
                 end
             end
             Interact.current = best
-            -- far from every door: check less often (cars move fast, keep a wider margin)
+            -- Reduce polling outside interaction range; allow more margin for vehicles.
             if gap > (IsPedInAnyVehicle(ped, false) and 25.0 or 8.0) then sleep = 500 end
         else
             Interact.current = nil

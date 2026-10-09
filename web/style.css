@@ -415,7 +415,7 @@ input.time { width: 120px; }
 .give-key select { width: 200px; }
 .migrate { margin-top: 10px; }
 
-/* ---- door form: sticky top, tabs, sticky actions ---- */
+/* door form */
 .ed-main { padding: 0 22px; }
 #ed-form { display: flex; flex-direction: column; min-height: 100%; }
 .form-top {

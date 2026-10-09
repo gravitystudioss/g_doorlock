@@ -4,7 +4,7 @@ local function distTo(src, id)
     return #(GetEntityCoords(GetPlayerPed(src)) - Doors.center(id))
 end
 
--- doorbell ----------------------------------------------------------------
+-- doorbell
 
 local lastKnock = {}
 
@@ -43,7 +43,7 @@ lib.callback.register('g_doorlock:bell', function(src, id)
     return { ok = true, told = told }
 end)
 
--- remote control ----------------------------------------------------------
+-- remote control
 
 lib.callback.register('g_doorlock:remote', function(src, id)
     if not RateLimit.check(src, 'remote') then return { ok = false, reason = 'rate' } end
@@ -67,7 +67,7 @@ lib.callback.register('g_doorlock:remote', function(src, id)
     return { ok = true, locked = locked }
 end)
 
--- update check ------------------------------------------------------------
+-- update check
 
 local function versionNumber(v)
     local a, b, c = tostring(v or ''):match('(%d+)%.(%d+)%.?(%d*)')
