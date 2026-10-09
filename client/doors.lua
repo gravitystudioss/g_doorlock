@@ -23,18 +23,20 @@ local function gridRemove(door)
     end
 end
 
--- snap = the door was just locked: a door locked while open stays open until it swings back, so close it once
+-- Apply state on registration, nearby entry and server updates only.
 function ClientDoors.apply(door, snap)
     local state = door.locked and 1 or 0
+    local gate = door.type == 'gate' or door.type == 'garage'
     for _, leaf in ipairs(door.doors) do
-        if snap and door.locked then
-            DoorSystemSetDoorState(leaf.hash, 4, false, false)
-        end
-        DoorSystemSetDoorState(leaf.hash, state, false, false)
-        if door.autoDistance > 0 and (door.type == 'gate' or door.type == 'garage') then
-            -- unlocked gates open by themselves when someone gets close
+        if gate then
+            DoorSystemSetAutomaticRate(leaf.hash, 1.5, false, false)
+            if door.locked then DoorSystemSetHoldOpen(leaf.hash, false) end
             DoorSystemSetAutomaticDistance(leaf.hash, door.locked and 0.0 or door.autoDistance, false, false)
         end
+        if snap and door.locked then
+            DoorSystemSetOpenRatio(leaf.hash, 0.0, false, true)
+        end
+        DoorSystemSetDoorState(leaf.hash, state, false, true)
     end
 end
 
