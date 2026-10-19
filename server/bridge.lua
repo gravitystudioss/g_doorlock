@@ -5,7 +5,7 @@ local function started(res)
 end
 
 local function pickFramework()
-    local wanted = Config.Framework
+    local wanted = Config.Bridge.framework
     if wanted ~= 'auto' then
         if not GravityBridges.frameworks[wanted] then
             print(('^1[g_doorlock] Unknown framework "%s", falling back to auto^0'):format(tostring(wanted)))
@@ -20,7 +20,7 @@ local function pickFramework()
 end
 
 local function pickInventory()
-    local wanted = Config.Inventory
+    local wanted = Config.Bridge.inventory
     if wanted ~= 'auto' then
         if GravityBridges.inventories[wanted] then return wanted end
         print(('^1[g_doorlock] Unknown inventory "%s", falling back to auto^0'):format(tostring(wanted)))

@@ -144,7 +144,7 @@ function Breakin.repair(door)
         return
     end
 
-    local done = lib.progressCircle({
+    local done = ClientBridge.progress({
         duration = res.duration,
         label = L('repair_progress'),
         position = 'bottom',
@@ -207,6 +207,5 @@ function Breakin.openMenu(door)
         return
     end
 
-    lib.registerContext({ id = 'g_doorlock_breakin', title = L('ed_breakin'), options = options })
-    lib.showContext('g_doorlock_breakin')
+    ClientBridge.menu('g_doorlock_breakin', L('ed_breakin'), options)
 end

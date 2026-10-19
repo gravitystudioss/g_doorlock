@@ -12,6 +12,7 @@ ui_page 'web/index.html'
 shared_scripts {
     '@ox_lib/init.lua',
     'config.lua',
+    'shared/bridge.lua',
     'shared/locale.lua',
     'locales/*.lua',
     'shared/utils.lua',
@@ -44,6 +45,7 @@ server_scripts {
 
 client_scripts {
     'client/nui.lua',
+    'client/bridge.lua',
     'client/notify.lua',
     'client/doors.lua',
     'client/interact.lua',
@@ -57,8 +59,11 @@ files {
     'web/index.html',
     'web/style.css',
     'web/app.js',
-    'web/img/logo.png',
+    'web/theme.js',
+    'web/img/*',
     'web/fonts/*.woff2',
+    'web/fonts/*.ttf',
+    'web/fonts/*.txt',
     'examples/packs/*.json',
 }
 

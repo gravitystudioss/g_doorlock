@@ -22,9 +22,13 @@ end
 function Nui.init()
     Nui.send('init', {
         locale = GetLocaleTable(),
+        branding = Config.NUI or {},
+        theme = Config.NUI and Config.NUI.theme,
+        toastPosition = Config.Bridge.notifyPosition,
+        textUIPosition = Config.Bridge.textUIPosition,
         pinMin = Config.Access.pin.minLength,
         pinMax = Config.Access.pin.maxLength,
-        indicator = Config.TextUI.system ~= false,
+        indicator = Config.Bridge.textUI ~= false,
         sounds = soundChoices(),
         defaults = {
             locked = Config.Doors.defaults.locked,
@@ -37,8 +41,8 @@ function Nui.init()
     })
 end
 
-function Nui.toast(kind, text)
-    Nui.send('toast', { type = kind, text = text })
+function Nui.toast(kind, text, title, duration)
+    Nui.send('toast', { type = kind, text = text, title = title, duration = duration })
 end
 
 function Nui.playSoundKey(key, coords)

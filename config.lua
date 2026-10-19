@@ -1,14 +1,41 @@
 Config = {}
 
 Config.Locale = 'en'          -- en | it | de | fr | es | pt
-Config.Framework = 'auto'     -- auto | esx | qb | qbx | standalone
-Config.Inventory = 'auto'     -- auto | ox_inventory | qs-inventory | qb-inventory | esx | none
 Config.Debug = false
 
--- g_doorlock (built-in) | ox_lib | esx (esx_textui) | qb | okokTextUI | cd_drawtextui | jg-textui | custom | false
+Config.Bridge = {
+    framework = 'auto',        -- auto | esx | qb | qbx | standalone
+    inventory = 'auto',        -- auto | ox_inventory | qs-inventory | qb-inventory | esx | none
+    target = 'builtin',        -- auto | ox_target | builtin
+    notify = 'g_doorlock',         -- auto | g_doorlock | ox_lib | esx | qb | qbx | okokNotify | mythic_notify | brutal_notify | wasabi_notify | custom
+    textUI = 'g_doorlock',      -- auto | g_doorlock | ox_lib | esx | qb | okokTextUI | cd_drawtextui | jg-textui | custom | false
+    notifyPosition = 'top-right', -- top | top-right | bottom-right (built-in and ox_lib)
+    textUIPosition = 'bottom', -- bottom | left | right (built-in and ox_lib); qb / okokTextUI use left or right
+    progress = 'ox_lib',       -- auto | ox_lib (circle) | ox_lib_bar | qb (progressbar) | esx (esx_progressbar)
+    menu = 'ox_lib',           -- auto | ox_lib | qb (qb-menu) | esx (esx_context)
+    logs = 'discord',          -- console | discord | ox_lib | none; webhook stays in config_server.lua
+}
+
+Config.NUI = {
+    watermark = true,                 -- show the server logo; the name stays visible when false
+    serverName = 'Gravity Studios',    -- empty string hides the server name
+    logo = 'img/logo.png',             -- local path relative to web/; empty string hides the logo
+    theme = {
+        colors = {
+            background = '#080918', backgroundSecondary = '#0a0b1c',
+            surface = '#0d0e21', surfaceSecondary = '#15112b', input = '#0d0e21',
+            border = '#251d3e', borderStrong = '#42305f',
+            text = '#eeebf7', muted = '#a3a5b4', faint = '#999caf',
+            primary = '#7629e8', accent = '#843af0', highlight = '#ce9bf5', primaryText = '#ffffff',
+            info = '#67d9ed', success = '#62d2e8', warning = '#fcd34d',
+            danger = '#ff6975', dangerStrong = '#ef4444',
+        },
+        fonts = { body = 'Barlow Condensed', headings = 'Bebas Neue' },
+    },
+}
+
+-- Existing custom hooks are kept for compatibility; select them in Config.Bridge.
 Config.TextUI = {
-    system = 'g_doorlock',
-    -- used with system = 'custom'
     show = function(text, locked)
         lib.showTextUI(text)
     end,
@@ -17,10 +44,7 @@ Config.TextUI = {
     end,
 }
 
--- ox_lib | g_doorlock (built-in) | esx | qb | qbx | okokNotify | mythic_notify | brutal_notify | wasabi_notify | custom
 Config.Notify = {
-    system = 'ox_lib',
-    -- used with system = 'custom'. kind = success | error | info
     custom = function(text, kind, title, duration)
         lib.notify({ title = title, description = text, type = kind == 'info' and 'inform' or kind, duration = duration })
     end,
@@ -28,7 +52,6 @@ Config.Notify = {
 
 -- keys can be rebound by players in GTA settings > Key Bindings > FiveM
 Config.Interaction = {
-    target = 'false',          -- 'auto' = ox_target if started, true = always, false = key only
     key = 'E',
     actionKey = 'G',          -- lockpick / breach without ox_target
     targetIcon = 'fa-solid fa-door-closed',
@@ -124,7 +147,7 @@ Config.Breach = {
     duration = 6000,          -- ms, the minigame must last at least this
     relockAfter = 120,
     minigame = function(duration)
-        return lib.progressCircle({
+        return ClientBridge.progress({
             duration = duration,
             label = L('breach_progress'),
             position = 'bottom',

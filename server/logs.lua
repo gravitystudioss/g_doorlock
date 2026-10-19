@@ -29,10 +29,25 @@ local function sendDiscord(action, doorId, actor, details)
 end
 
 function Logs.add(action, src, doorId, details)
+    local provider = Config.Bridge.logs
+    if provider == 'none' then return end
     details = details or ''
     local actor = actorOf(src)
-    if Config.Debug then
+    if provider == 'ox_lib' then
+        local ok, err = pcall(function()
+            lib.logger(src or 0, action, ('%s | %s | %s'):format(doorId or '-', actor, details))
+        end)
+        if ok then return end
+        print(('^3[g_doorlock] ox_lib logger failed (%s); using console^0'):format(tostring(err)))
+        Config.Bridge.logs = 'console'
+        provider = 'console'
+    elseif provider ~= 'console' and provider ~= 'discord' then
+        print(('^3[g_doorlock] Unknown log provider "%s"; using console^0'):format(tostring(provider)))
+        Config.Bridge.logs = 'console'
+        provider = 'console'
+    end
+    if provider == 'console' or Config.Debug then
         print(('[g_doorlock] %s | %s | %s %s'):format(action, doorId or '-', actor, details))
     end
-    sendDiscord(action, doorId, actor, details)
+    if provider == 'discord' then sendDiscord(action, doorId, actor, details) end
 end

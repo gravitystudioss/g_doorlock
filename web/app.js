@@ -5,6 +5,30 @@ let cfg = { pinMin: 4, pinMax: 8, indicator: true, defaults: {} };
 
 const $ = (id) => document.getElementById(id);
 
+const DEFAULT_BRANDING = { watermark: true, serverName: 'Gravity Studios', logo: 'img/logo.png' };
+let branding = { ...DEFAULT_BRANDING };
+
+function applyBranding(options) {
+    branding = { ...DEFAULT_BRANDING, ...options };
+    const name = typeof branding.serverName === 'string' ? branding.serverName : DEFAULT_BRANDING.serverName;
+    const logo = typeof branding.logo === 'string' ? branding.logo.trim() : DEFAULT_BRANDING.logo;
+    const showLogo = branding.watermark !== false && logo !== '';
+    document.querySelectorAll('[data-server-name]').forEach((el) => {
+        el.textContent = name;
+        el.title = name;
+        el.hidden = name === '';
+    });
+    document.querySelectorAll('[data-brand-logo]').forEach((el) => {
+        el.hidden = !showLogo;
+        if (showLogo) el.src = logo;
+        else el.removeAttribute('src');
+    });
+    document.querySelectorAll('[data-branding]').forEach((el) => {
+        // Functional titles remain visible when both branding elements are disabled.
+        el.hidden = !name && !showLogo && !el.querySelector('[data-i18n], [data-product-label]');
+    });
+}
+
 function post(name, data) {
     return fetch(`https://${RES}/${name}`, {
         method: 'POST',
@@ -32,6 +56,9 @@ function clone(o) {
 function applyI18n() {
     document.querySelectorAll('[data-i18n]').forEach((el) => { el.textContent = t(el.dataset.i18n); });
     document.querySelectorAll('[data-i18n-ph]').forEach((el) => { el.placeholder = t(el.dataset.i18nPh); });
+    document.querySelectorAll('[data-i18n-aria]').forEach((el) => { el.setAttribute('aria-label', t(el.dataset.i18nAria)); });
+    document.querySelectorAll('[data-add]').forEach((el) => { el.setAttribute('aria-label', t('ed_' + el.dataset.add)); });
+    document.querySelectorAll('[data-test]').forEach((el) => { el.setAttribute('aria-label', t('ed_sound_' + el.dataset.test)); });
 }
 
 let audioCtx = null;
@@ -95,10 +122,18 @@ function playSound(data) {
     fn(vol);
 }
 
-function toast(type, text, action) {
+function toast(type, text, action, duration, title) {
     const el = document.createElement('div');
     el.className = 'toast ' + (type || '');
-    el.textContent = text;
+    const copy = document.createElement('span');
+    copy.className = 'toast-copy';
+    if (title) {
+        const heading = document.createElement('b');
+        heading.textContent = title;
+        copy.appendChild(heading);
+    }
+    copy.appendChild(document.createTextNode(text || ''));
+    el.appendChild(copy);
     if (action) {
         const b = document.createElement('button');
         b.className = 'small toast-btn';
@@ -107,11 +142,11 @@ function toast(type, text, action) {
         el.appendChild(b);
     }
     $('toasts').appendChild(el);
-    setTimeout(() => el.remove(), action ? 8000 : 3200);
+    setTimeout(() => el.remove(), Number.isFinite(duration) && duration > 0 ? duration : (action ? 8000 : 3200));
 }
 
-const ICON_LOCK = '<svg viewBox="0 0 24 24" fill="#fca5a5"><path d="M17 9V7A5 5 0 0 0 7 7v2H5v13h14V9h-2zM9 7a3 3 0 0 1 6 0v2H9V7z"/></svg>';
-const ICON_OPEN = '<svg viewBox="0 0 24 24" fill="#4ade80"><path d="M17 9H9V7a3 3 0 0 1 5.8-1.1l1.9-.6A5 5 0 0 0 7 7v2H5v13h14V9h-2z"/></svg>';
+const ICON_LOCK = '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="5" y="10" width="14" height="11" rx="1"/><path d="M8 10V7a4 4 0 0 1 8 0v3M12 14v3"/></svg>';
+const ICON_OPEN = '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="5" y="10" width="14" height="11" rx="1"/><path d="M8 10V7a4 4 0 0 1 7.5-2M12 14v3"/></svg>';
 
 function setIndicator(d) {
     const el = $('indicator');
@@ -259,8 +294,8 @@ function renderList() {
     const list = filteredDoors();
     const activeId = ed.draft && !ed.draft.isNew ? ed.draft.data.id : null;
     $('ed-list').innerHTML = list.map((d) => `
-        <div class="door-item ${d.id === activeId ? 'active' : ''}" data-id="${esc(d.id)}">
-            <input type="checkbox" class="pick" ${ed.picked.has(d.id) ? 'checked' : ''}>
+        <div class="door-item ${d.id === activeId ? 'active' : ''}" data-id="${esc(d.id)}" tabindex="0" aria-label="${esc(d.name)}">
+            <input type="checkbox" class="pick" aria-label="${esc(t('ed_bulk') + ': ' + d.name)}" ${ed.picked.has(d.id) ? 'checked' : ''}>
             <span class="dot ${d.state ? '' : 'open'}"></span>
             <div class="meta"><b>${esc(d.name)}</b><small>${esc(d.id)}${d.group ? ' · ' + esc(d.group) : ''}</small></div>
             <span class="tag">${esc(t('ed_type_' + d.type))}</span>
@@ -271,6 +306,12 @@ function renderList() {
         el.addEventListener('click', (e) => {
             if (e.target.classList.contains('pick')) return;
             selectDoor(el.dataset.id);
+        });
+        el.addEventListener('keydown', (e) => {
+            if (e.target === el && (e.key === 'Enter' || e.key === ' ')) {
+                e.preventDefault();
+                selectDoor(el.dataset.id);
+            }
         });
         el.querySelector('.pick').addEventListener('change', (e) => {
             if (e.target.checked) ed.picked.add(el.dataset.id); else ed.picked.delete(el.dataset.id);
@@ -313,16 +354,16 @@ function rowHtml(kind, v) {
     if (kind === 'jobs' || kind === 'gangs') {
         return `<div class="r"><input class="n" value="${esc(v.name || '')}" placeholder="${esc(t('ed_name_ph'))}">
             <input class="g" type="number" min="0" value="${esc(v.grade || 0)}" title="${esc(t('ed_grade_ph'))}">
-            <button type="button" class="x">&times;</button></div>`;
+            <button type="button" class="x" aria-label="${esc(t('ed_delete'))}">&times;</button></div>`;
     }
     if (kind === 'identifiers') {
         return `<div class="r"><input class="n" value="${esc(v || '')}" placeholder="${esc(t('ed_ident_ph'))}">
-            <button type="button" class="x">&times;</button></div>`;
+            <button type="button" class="x" aria-label="${esc(t('ed_delete'))}">&times;</button></div>`;
     }
     return `<div class="r"><input class="n" list="item-list" value="${esc(v.name || '')}" placeholder="${esc(t('ed_item_name'))}">
         <input class="m" value="${esc(v.metadata || '')}" placeholder="${esc(t('ed_item_meta'))}">
         <label class="tg"><input type="checkbox" class="rm" ${v.remove ? 'checked' : ''}><span>${esc(t('ed_item_remove'))}</span></label>
-        <button type="button" class="x">&times;</button></div>`;
+        <button type="button" class="x" aria-label="${esc(t('ed_delete'))}">&times;</button></div>`;
 }
 
 function renderRows(kind, values) {
@@ -360,9 +401,13 @@ let currentTab = 'general';
 
 function showTab(name) {
     currentTab = name;
-    document.querySelectorAll('.tab').forEach((b) => b.classList.toggle('active', b.dataset.tab === name));
+    document.querySelectorAll('.tab').forEach((b) => {
+        const active = b.dataset.tab === name;
+        b.classList.toggle('active', active);
+        b.setAttribute('aria-current', active ? 'page' : 'false');
+    });
     document.querySelectorAll('#ed-form fieldset[data-tab]').forEach((fs) => fs.classList.toggle('hidden', fs.dataset.tab !== name));
-    $('ed-main').scrollTop = 0;
+    $('ed-content').scrollTop = 0;
 }
 
 document.querySelectorAll('.tab').forEach((b) => b.addEventListener('click', () => showTab(b.dataset.tab)));
@@ -534,8 +579,12 @@ async function saveDraft(e) {
     data.access.pin = !!pinAction && !!pinAction.set || (ed.draft.hasPin && !ed.pinClear);
 
     saving = true;
+    $('f-save').disabled = true;
+    $('f-save').setAttribute('aria-busy', 'true');
     const res = await post('editor:save', { door: data, isNew: ed.draft.isNew, rev: ed.draft.rev, pin: pinAction });
     saving = false;
+    $('f-save').disabled = false;
+    $('f-save').removeAttribute('aria-busy');
     if (!res || !res.ok) {
         toast('error', errText(res));
         return;
@@ -785,8 +834,8 @@ function renderGroupModal() {
             <div class="meta"><b>${esc(g.label)}</b><small>${esc(g.name)} · ${esc(t('ed_group_doors', g.count))}</small></div>
             <button type="button" class="small" data-act="unlock">${esc(t('ed_group_unlock'))}</button>
             <button type="button" class="small" data-act="lock">${esc(t('ed_group_lock'))}</button>
-            <button type="button" class="small" data-act="edit">&#9998;</button>
-            <button type="button" class="small danger-ghost" data-act="delete">&times;</button>
+            <button type="button" class="small" data-act="edit" aria-label="${esc(t('ed_groups'))}">&#9998;</button>
+            <button type="button" class="small danger-ghost" data-act="delete" aria-label="${esc(t('ed_delete'))}">&times;</button>
         </div>`).join('') : `<p class="muted small">${esc(t('ed_group_empty'))}</p>`;
 
     box.querySelectorAll('.group-row').forEach((row) => {
@@ -1006,12 +1055,17 @@ window.addEventListener('message', (ev) => {
             cfg = Object.assign(cfg, d);
             document.documentElement.lang = L._lang || 'en';
             applyI18n();
+            applyBranding(d.branding);
+            GravityNUITheme.apply(document.documentElement, d.theme || (d.branding && d.branding.theme), '--');
+            $('toasts').dataset.position = ['top', 'top-right', 'bottom-right'].includes(d.toastPosition) ? d.toastPosition : 'top-right';
+            $('indicator').dataset.position = ['bottom', 'left', 'right'].includes(d.textUIPosition) ? d.textUIPosition : 'bottom';
+            if (!cfg.indicator) $('indicator').classList.add('hidden');
             fillSoundSelects();
             renderGuide($('guide-inline'));
             break;
         case 'indicator': setIndicator(d); break;
         case 'indicatorDenied': flashDenied(); break;
-        case 'toast': toast(d.type, d.text); break;
+        case 'toast': toast(d.type, d.text, null, d.duration, d.title); break;
         case 'sound': playSound(d); break;
         case 'keypad:open': openKeypad(d); break;
         case 'keypad:close': closeKeypad(); break;
@@ -1063,4 +1117,5 @@ window.addEventListener('keydown', (e) => {
     }
 });
 
+applyBranding();
 post('ready');

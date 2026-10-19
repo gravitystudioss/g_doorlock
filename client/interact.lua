@@ -18,7 +18,7 @@ end
 local lastShown = nil
 
 local function updateIndicator()
-    local system = Config.TextUI.system
+    local system = Config.Bridge.textUI
     if not system then return end
     local door = Interact.current
     if door and door.hideIndicator then door = nil end
@@ -409,16 +409,7 @@ CreateThread(function()
 end)
 
 function Interact.init()
-    local mode = Config.Interaction.target
-    if mode == 'auto' then
-        useTarget = GetResourceState('ox_target') == 'started'
-    else
-        useTarget = mode == true
-    end
-    if useTarget and GetResourceState('ox_target') ~= 'started' then
-        print('^1[g_doorlock] Config.Interaction.target = true but ox_target is not started, using key^0')
-        useTarget = false
-    end
+    useTarget = ClientBridge.provider('target') == 'ox_target'
 
     lib.addKeybind({
         name = 'g_doorlock_use',
