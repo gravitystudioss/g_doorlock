@@ -108,7 +108,7 @@ select option { background:var(--bg-2); }
 @keyframes kshake { 25% { transform:translateX(-4px); } 75% { transform:translateX(4px); } }
 
 /* Fixed management frame. Only the library and form content scroll. */
-.editor { width:min(1160px,90vw); height:min(560px,88vh); display:flex; flex-direction:column; overflow:hidden; }
+.editor { width:min(1160px,90vw); height:min(680px,92vh); display:flex; flex-direction:column; overflow:hidden; }
 .ed-head { display:flex; align-items:center; gap:10px; flex:0 0 60px; min-height:0; padding:8px 20px; border-bottom:1px solid var(--border); background:var(--bg-2); }
 .brand { display:flex; align-items:center; gap:10px; min-width:0; flex:0 1 auto; }
 .brand > div { min-width:0; }
@@ -119,7 +119,7 @@ select option { background:var(--bg-2); }
 .brand small { display:block; color:var(--muted); font:400 14px/1 var(--display); letter-spacing:.4px; margin-top:3px; }
 .icon-btn { width:32px; min-height:32px; padding:0; font:400 24px var(--body); }
 .ed-body { flex:1; display:flex; min-height:0; }
-.ed-side { flex:0 0 220px; min-width:0; min-height:0; padding:14px 12px 10px; border-right:1px solid var(--border); background:var(--bg-2); display:flex; flex-direction:column; gap:8px; }
+.ed-side { flex:0 0 200px; min-width:0; min-height:0; padding:14px 12px 10px; border-right:1px solid var(--border); background:var(--bg-2); display:flex; flex-direction:column; gap:8px; }
 .side-actions { display:flex; gap:5px; flex:none; }
 .side-actions button { flex:1; min-width:0; padding:7px 5px; font-size:13px; }
 .side-primary button { width:100%; font-size:15px; }
