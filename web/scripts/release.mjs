@@ -23,7 +23,7 @@ if (!version) fail('version not found in fxmanifest.lua');
 // Webhooks and keys must be '' before a release
 for (const file of ['config.lua', 'config_server.lua']) {
   const text = readFileSync(join(root, file), 'utf8');
-  const leak = /https?:\/\/(?:\w+\.)?discord(?:app)?\.com\/api\/webhooks\/\S+|\b\w*(?:api_?key|token|secret|password)\s*=\s*'[^']+'/i.exec(text);
+  const leak = /https?:\/\/(?:\w+\.)?discord(?:app)?\.com\/api\/webhooks\/\d+\/\S+|\b\w*(?:api_?key|token|secret|password)\s*=\s*'[^']+'/i.exec(text);
   if (leak) fail(`${file} contains a secret (${leak[0].slice(0, 48)}...), clear it before releasing`);
 }
 
