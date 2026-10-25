@@ -5,7 +5,7 @@ lua54 'yes'
 name 'g_doorlock'
 author 'Gravity Studios'
 description 'Gravity Doorlock - doors, double doors, gates and garage doors with server-side permissions, PIN, keycards and in-game editor'
-version '1.0.0'
+version '1.1.0'
 
 ui_page 'web/dist/index.html'
 
