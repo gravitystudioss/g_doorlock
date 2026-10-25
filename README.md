@@ -64,7 +64,19 @@ Config.NUI = {
 
 Set `watermark = false` to hide the logo while keeping the server name. An empty `serverName` hides the name; an empty `logo` hides the logo. Product labels and functional titles remain visible.
 
-Place custom logos in `web/img/` and use a path such as `img/my-server.png`; files in that folder are included by the manifest. For assets in other folders, also add them to `files` in `fxmanifest.lua`. Restart `g_doorlock` after changing the configuration.
+Place custom logos in `web/public/img/` and use a path such as `img/my-server.png`, then rebuild the NUI (see below). Restart `g_doorlock` after changing the configuration.
+
+## Building the NUI
+
+The interface is React + TypeScript (Vite) in `web/src`, served from `web/dist`. Release zips already contain the build. From a git checkout, build it once with Node 18 or newer:
+
+```
+cd web
+npm install
+npm run build
+```
+
+`npm run release` (from the resource folder) builds and writes `release/g_doorlock-<version>.zip` without the sources. Locale texts and `Config.NUI` are sent from Lua, so changing them needs no rebuild.
 
 ## NUI theme
 

@@ -1,0 +1,7 @@
+{
+  "private": true,
+  "scripts": {
+    "build": "npm --prefix web run build",
+    "release": "npm --prefix web run release"
+  }
+}

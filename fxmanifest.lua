@@ -7,7 +7,7 @@ author 'Gravity Studios'
 description 'Gravity Doorlock - doors, double doors, gates and garage doors with server-side permissions, PIN, keycards and in-game editor'
 version '1.0.0'
 
-ui_page 'web/index.html'
+ui_page 'web/dist/index.html'
 
 shared_scripts {
     '@ox_lib/init.lua',
@@ -56,14 +56,7 @@ client_scripts {
 }
 
 files {
-    'web/index.html',
-    'web/style.css',
-    'web/app.js',
-    'web/theme.js',
-    'web/img/*',
-    'web/fonts/*.woff2',
-    'web/fonts/*.ttf',
-    'web/fonts/*.txt',
+    'web/dist/**/*',
     'examples/packs/*.json',
 }
 

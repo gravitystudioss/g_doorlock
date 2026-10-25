@@ -4,3 +4,7 @@ doors_export_*.json
 *.log
 Thumbs.db
 .DS_Store
+web/node_modules/
+web/dist/
+release/
+.playwright-mcp/

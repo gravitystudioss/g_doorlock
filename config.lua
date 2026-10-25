@@ -195,7 +195,7 @@ Config.RateLimit = {
     remote = { max = 4, window = 4000 },
 }
 
--- type: synth (no files) | file (web/sounds/ + fxmanifest files) | native (GTA name + set)
+-- type: synth (no files) | file (web/public/sounds/, rebuild the NUI) | native (GTA name + set)
 Config.Sounds = {
     enabled = true,
     range = 10.0,
