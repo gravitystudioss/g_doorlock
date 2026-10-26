@@ -1,3 +1,4 @@
+import { nui } from './nui';
 import type { MessageOf } from './contracts';
 import { t } from './i18n';
 import { settings } from './settings';
@@ -11,28 +12,18 @@ interface Toast {
   action?: { label: string; run: () => void };
 }
 
-const MAX_TOASTS = 4;
 
 const hud = createStore({
   indicator: { show: false } as MessageOf<'indicator'>,
   deniedTick: 0,
   denied: false,
-  toasts: [] as Toast[],
   selection: { show: false } as MessageOf<'selection'>,
 });
 
-let toastId = 0;
 let deniedTimer = 0;
 
 export function toast(type: string, text: string, options: { title?: string; duration?: number; action?: Toast['action'] } = {}) {
-  const id = ++toastId;
-  hud.set((current) => ({ toasts: [...current.toasts, { id, type, text, title: options.title, action: options.action }].slice(-MAX_TOASTS) }));
-  const duration = options.duration && options.duration > 0 ? options.duration : options.action ? 8000 : 3200;
-  window.setTimeout(() => dismissToast(id), duration);
-}
-
-function dismissToast(id: number) {
-  hud.set((current) => ({ toasts: current.toasts.filter((item) => item.id !== id) }));
+  if (text) void nui('notify', { message: text, type, title: options.title, duration: options.duration });
 }
 
 export const setIndicator = (indicator: MessageOf<'indicator'>) => hud.set({ indicator, denied: false });
@@ -70,7 +61,7 @@ export function BrandMini({ product }: { product?: string }) {
 }
 
 export function Hud() {
-  const { indicator, denied, deniedTick, toasts, selection } = hud.use();
+  const { indicator, denied, deniedTick, selection } = hud.use();
   const config = settings.use();
   const showIndicator = config.indicator && indicator.show;
   const stateText = denied ? t('access_denied') : indicator.broken ? t('ed_broken') : indicator.locked ? t('locked') : t('unlocked');
@@ -94,28 +85,6 @@ export function Hud() {
           )}
         </div>
       )}
-
-      <div id="toasts" aria-live="polite" data-position={config.toastPosition}>
-        {toasts.map((item) => (
-          <div key={item.id} className={'toast ' + item.type}>
-            <span className="toast-copy">
-              {item.title && <b>{item.title}</b>}
-              {item.text}
-            </span>
-            {item.action && (
-              <button
-                className="small toast-btn"
-                onClick={() => {
-                  dismissToast(item.id);
-                  item.action!.run();
-                }}
-              >
-                {item.action.label}
-              </button>
-            )}
-          </div>
-        ))}
-      </div>
 
       {selection.show && (
         <div className="selection">

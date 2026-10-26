@@ -24,12 +24,12 @@ function Notify(text, kind, title, duration)
         elseif system == 'ox_lib' then
             lib.notify({ title = title, description = text, type = kind == 'info' and 'inform' or kind, duration = duration, position = Config.Bridge.notifyPosition })
         else
-            Nui.toast(kind, text, title, duration)
+            TriggerEvent('esx:showNotification', text, kind, duration)
         end
     end)
     if not ok then
-        ClientBridge.warn('notify', tostring(err) .. '; using g_doorlock')
-        Nui.toast(kind, text, title, duration)
+        ClientBridge.warn('notify', tostring(err))
+        TriggerEvent('esx:showNotification', text, kind, duration)
     end
 end
 

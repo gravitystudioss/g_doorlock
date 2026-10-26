@@ -61,18 +61,20 @@ function errorLine(error: ReportError, key: number) {
 }
 
 function DeleteModal() {
+  const [deletedId, setDeletedId] = useState<string | null>(null);
   const draft = editor.use().draft;
   const [busy, run] = useBusy();
+  if (deletedId) return <Modal title={t('ed_deleted')} actions={[{ label: t('ed_undo'), run: () => { restoreDoor(deletedId); closeModal(); } }, { label: t('ed_cancel'), run: closeModal }]}><p>{t('ed_deleted')}</p></Modal>;
   if (!draft) return null;
   const { id, name } = draft.data;
   const remove = () =>
     run(async () => {
       const result = await nuiResult('editor:delete', { id });
-      closeModal();
       if (!result?.ok) return toast('error', errText(result));
       editor.set((current) => ({ doors: current.doors.filter((door) => door.id !== id), draft: null, picked: current.picked.filter((entry) => entry !== id) }));
       nui('editor:preview', { leaves: [] });
-      toast('success', t('ed_deleted'), { action: { label: t('ed_undo'), run: () => restoreDoor(id) } });
+      toast('success', t('ed_deleted'));
+      setDeletedId(id);
     });
   return (
     <Modal title={t('ed_delete')} actions={[{ label: t('ed_cancel'), run: closeModal }, { label: t('ed_delete'), className: 'danger', disabled: busy, run: remove }]}>

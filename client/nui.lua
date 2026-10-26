@@ -42,7 +42,7 @@ function Nui.init()
 end
 
 function Nui.toast(kind, text, title, duration)
-    Nui.send('toast', { type = kind, text = text, title = title, duration = duration })
+    Notify(text, kind, title, duration)
 end
 
 function Nui.playSoundKey(key, coords)
@@ -92,4 +92,9 @@ RegisterNUICallback('close', function(data, cb)
     end
     Nui.setFocus(nil)
     cb(true)
+end)
+
+RegisterNUICallback('notify', function(data, cb)
+    if type(data.message) == 'string' then Notify(data.message, data.type, data.title, data.duration) end
+    cb({ ok = true })
 end)

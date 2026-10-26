@@ -3,7 +3,7 @@ ClientBridge = {}
 local resources = {
     target = { builtin = '', ox_target = 'ox_target' },
     notify = {
-        g_doorlock = '', ox_lib = 'ox_lib', custom = '', esx = 'es_extended',
+        ox_lib = 'ox_lib', custom = '', esx = 'es_extended',
         qb = { 'qb-core', 'qbx_core' }, qbx = 'qbx_core', okokNotify = 'okokNotify',
         mythic_notify = 'mythic_notify', brutal_notify = 'brutal_notify', wasabi_notify = 'wasabi_notify',
     },
@@ -14,7 +14,7 @@ local resources = {
     progress = { ox_lib = 'ox_lib', ox_lib_bar = 'ox_lib', qb = 'progressbar', esx = 'esx_progressbar' },
     menu = { ox_lib = 'ox_lib', qb = 'qb-menu', esx = 'esx_context' },
 }
-local fallbacks = { target = 'builtin', notify = 'g_doorlock', textUI = 'g_doorlock', progress = 'ox_lib', menu = 'ox_lib' }
+local fallbacks = { target = 'builtin', notify = 'ox_lib', textUI = 'g_doorlock', progress = 'ox_lib', menu = 'ox_lib' }
 local warnings = {}
 
 function ClientBridge.warn(service, message)
